@@ -6,8 +6,16 @@ var options = {
 };
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://localhost:5432/puppies';
-var db = pgp(connectionString);
+//var connectionString = 'postgres://localhost:5432/puppies';
+var cn = {
+    host: 'localhost', // server name or IP address;
+    port: 5432,
+    database: 'puppies',
+    user: 'postgres',
+    password: 'root'
+};
+
+var db = pgp(cn);
 
 function getAllPuppies(req, res, next) {
   db.any('select * from pups')
@@ -20,6 +28,7 @@ function getAllPuppies(req, res, next) {
         });
     })
     .catch(function (err) {
+      console.log(err);
       return next(err);
     });
 }
@@ -53,6 +62,7 @@ function createPuppy(req, res, next) {
         });
     })
     .catch(function (err) {
+      console.log(err);
       return next(err);
     });
 }
